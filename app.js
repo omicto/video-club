@@ -6,6 +6,15 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const actorsRouter = require('./routes/actors');
+const bookingsRouter = require('./routes/bookings');
+const membersRouter = require('./routes/members');
+const copiesRouter = require('./routes/copies');
+const genresRouter = require('./routes/genres');
+const moviesRouter = require('./routes/movies');
+const directorsRouter = require('./routes/directors');
+const moviesActorRouter = require('./routes/movieactors');
+
 
 const app = express();
 
@@ -19,8 +28,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/', moviesActorRouter);
 app.use('/users', usersRouter);
+app.use('/actors', actorsRouter);
+app.use('/members',membersRouter);
+app.use('/bookings',bookingsRouter);
+app.use('/copies', copiesRouter);
+app.use('/genres', genresRouter);
+app.use('/directors', directorsRouter);
+app.use('/movies', moviesRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

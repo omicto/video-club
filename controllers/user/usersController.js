@@ -1,31 +1,43 @@
 const express = require('express');
+const { Actor, Movie, Genre, MoviesActos } = require('../../sequelize');
 
-function list(req, res, next) {
-    let users = [];
-    res.json(users);
+function list(req, res, next){
+
+  let genre = new Object();
+
+  genre.description = "terror";
+  genre.status = false;
+
+  Genre.create(genre).then((genre)=>{
+    let movie = new Object();
+    movie.title = "pepe el toro";
+    movie.genreId = genre.id;
+    Movie.create(movie).then(movie => res.json(movie));
+  });
 }
 
-function one(req, res, next){
-    let user = new Object();
-    res.json(user);
+function index(req, res, next){
+  let id = req.params.id;
+
+  Movie.findOne({where: {'id':id}, include:'genre'})
+  .then(movie => res.json(movie));
 }
 
 function create(req, res, next){
-
+  let actor = new Object;
+  actor.name = req.body.name;
+  actor.last_name = req.body.last_name;
+  Actor.create(actor).then(actor => res.json(actor));
 }
 
 function update(req, res, next){
-
+  res.render('index', {title:'se actualizo un elemento'});
 }
 
-function remove(req, res, next){
-
+function destroy(req, res, next){
+  res.render('index', {title:'elimino un elemento'});
 }
 
 module.exports = {
-    list,
-    one,
-    create,
-    update,
-    remove
+  index, list, create, update, destroy
 }
